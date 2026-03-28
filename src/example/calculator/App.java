@@ -7,14 +7,14 @@ import java.util.Scanner;
 public class App {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        Calculator calculator = new Calculator();
+        ArithmeticCalculator<Double> calculator = new ArithmeticCalculator<Double>();
 
 
         while (true) {
 
             System.out.println("첫번째 숫자를 입력하세요: ");
-            int num1 = sc.nextInt();
-            if (num1 < 0) {
+            double num1 = sc.nextDouble();
+            if (num1 < 0.0) {
                 System.out.println("0보다 큰 숫자를 입력하세요");
                 continue;
             }
@@ -23,24 +23,32 @@ public class App {
             String giho = sc.next();
 
             System.out.println("두번째 숫자를 입력하세요: ");
-            int num2 = sc.nextInt();
-            if (num2 < 0) {
+            double num2 = sc.nextDouble();
+            if (num2 < 0.0) {
                 System.out.println("0보다 큰 숫자를 입력하세요");
                 continue;
             }
 
             System.out.println("입력된 식: " + num1 + " " + giho + " " + num2);
 
-            int result = calculator.calculate(num1, num2, giho);
+            double result = calculator.calculate(num1, num2, OperatorType.findSymBol(giho));
             System.out.println("결과" +  result);
 
-            ArrayList<Integer> newResult = calculator.getResults();
+            System.out.println("저장된 값중 원하시는 값보다 큰 값을 원하시는 경우 yes, 아니면 no를 눌러주세요 ");
+            String filterInput = sc.next();
+            if (filterInput.equals("yes")) {
+                System.out.println("기준값을 입력하세요: ");
+                double fiterValue = sc.nextDouble();
+                calculator.getResultsFindSymbol(fiterValue);
+            }
+
+            ArrayList<Double> newResult = calculator.getResults();
             System.out.println("현재까지 기록" + newResult);
 
             System.out.println("초기화 하시겠다면 delate 아니면 0을 눌러주세요 ");
             String input = sc.next();
             if (input.equals("delate")) {
-                ArrayList<Integer> newList = new ArrayList<>();
+                ArrayList<Double> newList = new ArrayList<>();
                 calculator.setResults(newList);
                 System.out.println("초기화");
                 System.out.println("현재 기록 상황" + calculator.getResults());
